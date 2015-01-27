@@ -1,0 +1,28 @@
+{
+  "name": "bt-slider",
+  "version": "0.1.0",
+  "authors": [
+    "babaca <babaaaca@gmail.com>"
+  ],
+  "description": "Universal horizontal slider directive for angularjs framework",
+  "main": "bt.slider.js",
+  "keywords": [
+    "angular",
+    "directive",
+    "slider",
+    "range"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/babaca/bt-slider",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.10",
+    "jquery": "~2.1.3"
+  }
+}

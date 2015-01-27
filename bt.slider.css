@@ -1,0 +1,87 @@
+.bt-slider {
+  position: relative; /* important for positionoing of an annotation*/
+  height: 40px; /* widget height */
+  cursor: pointer;
+  cursor: hand;
+}
+
+
+
+.bt-slider .scale-line {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 2px;
+  margin-top: 19px; /* half height of the .bt-slider - half of the .scale height */
+}
+
+.bt-slider .handle {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  width: 20px; /* default size - changed dynamically */
+  height: 40px;
+  content: "";
+  cursor: pointer;
+  cursor: hand;
+  /*background-color: rgba(0,0,0,0.05);*/
+}
+
+.bt-slider .scale-mark {
+  position: absolute;
+  top: 17px;
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+}
+
+.bt-slider .scale-annotation {
+  position: absolute;
+  top: 24px;
+  display: block;
+  font: 11px Calibri, Arial, sans-serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  white-space: nowrap;
+}
+
+
+.bt-slider .indicator-annotation {
+  position: absolute;
+  top: -2px;
+  font: 15px Calibri, Arial, sans-serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  white-space: nowrap;
+}
+
+/** 
+ *INDICATOR STYLES
+ */
+.bt-slider .indicator-mark {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.bt-slider .indicator-range {
+  position: absolute;
+  z-index: 2;
+  top: 19px;
+  height: 2px;
+}
+
+.bt-slider .indicator-min {
+  left: -4px;
+}
+
+.bt-slider .indicator-max {
+  right: -4px;
+}
