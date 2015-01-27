@@ -17,7 +17,6 @@
             disabled: '='
         };
 
-        // dir.templateUrl = 'btSliderTemplate.html';
         dir.template = '<div class="bt-slider"><div class="scale-line"></div><div class="indicator-annotation"></div></div>';
 
         dir.link = function(scope, elem, attrs) {
@@ -36,18 +35,17 @@
 
 
             // DOM REFERECENS
-            var dom = {
-                // slider: elem.find('.bt-slider')
-            };
+            var dom = {};
 
             // other passive paramenters
             var valuesNum = scope.values.length - 1,
                 spanMax = isNaN(attrs.spanMax) ? valuesNum : +attrs.spanMax,
                 spanMin = isNaN(attrs.spanMin) ? 1 : +attrs.spanMin;
-            // var spanMin = 2,
-            // spanMax = 3;
 
-            console.log(spanMin, spanMax);
+
+
+
+
 
             // cleans the dom inside the element from all elements for clean render
             function clean() {
@@ -57,6 +55,7 @@
                 elem.find('.handle').remove();
                 elem.find('.indicator-annotation').hide();
             }
+
 
 
             // renders passive elements
@@ -90,6 +89,8 @@
 
 
 
+
+
             function init() {
                 // clean the dom
                 clean();
@@ -99,11 +100,6 @@
                     indicatorAnnotation: elem.find('.indicator-annotation'),
                     scale: elem.find('.scale-line'),
                 });
-
-                // not initable
-                // if ((typeof scope.min === 'undefined') && (typeof scope.id === 'undefined')) {
-                //     return false;
-                // }
 
                 // disabled state
                 if (scope.disabled) {
@@ -139,10 +135,8 @@
 
 
 
-
-
             function renderSingleIndicator() {
-                console.log('renderSingleIndicator()');
+                // console.log('renderSingleIndicator()');
 
                 // create handle
                 dom.handle = $('<div>')
@@ -210,8 +204,6 @@
 
 
 
-
-
             function renderDoubleIndicator() {
 
                 dom.handleMin = $('<div>')
@@ -275,7 +267,6 @@
                             if (scope.disabled) {
                                 return false;
                             }
-
                             scope.$apply(function() {
                                 scope.min = idFromCoord(dom.handleMin.offset().left - dom.slider.offset().left);
                             });
@@ -308,7 +299,6 @@
                         }
                     });
 
-
                 // EVENTS
                 dom.slider.on('click', function(e) {
                     if (scope.disabled) {
@@ -331,15 +321,15 @@
 
 
 
-
-
-
             // get position for the center of the obj by defined coords
             function positionFromIndex(id, widthObj) {
-                    var idCoord = id / valuesNum * dom.slider.width();
-                    return idCoord - widthObj / 2;
-                }
-                // get id for the defined coords
+                var idCoord = id / valuesNum * dom.slider.width();
+                return idCoord - widthObj / 2;
+            }
+
+
+
+            // get id for the defined coords
             function idFromCoord(coord) {
                 var totalWidth = dom.slider.width();
                 return Math.round(coord / totalWidth * valuesNum);
@@ -353,7 +343,6 @@
             // SINGLE SLIDER CASE - SCOPE.INDEX
             scope.$watch('id', function(id, id_) {
 
-                // console.log(id, id_);
                 // position the selection
                 if (dom.indicator) {
                     dom.indicator
@@ -370,13 +359,9 @@
                         .css('left', positionFromIndex(scope.id, dom.indicatorAnnotation.width()))
                         .show();
                 }
-
-
                 colorAnnotation(id, id_);
-
                 positionHandles();
             });
-
 
 
 
@@ -394,7 +379,6 @@
                         scope.min -= shift;
                     }
                 }
-
                 positionIndication();
                 positionIndicationAnnotation();
                 colorAnnotation(min, min_);
@@ -423,6 +407,10 @@
             });
 
 
+
+
+
+
             // annotated re-coloring
             function colorAnnotation(id, id_) {
                 if (dom.annotation) {
@@ -435,6 +423,7 @@
 
                 }
             }
+
 
 
             // literally what is said in the function name
@@ -493,6 +482,7 @@
             }
 
 
+
             // position the handle after drag
             function positionHandles() {
 
@@ -526,6 +516,7 @@
 
 
 
+
             scope.$watch('disabled', function(val, val_) {
                 init();
             });
@@ -545,7 +536,4 @@
 
         return dir;
     }]);
-
-
-
 })();
