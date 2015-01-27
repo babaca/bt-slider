@@ -9,7 +9,7 @@ It has been styled to match one of my projects design.
 Appearance
 ----------
 
-![alt tag](https://raw.github.com/babaca/bt-slider/master/images/chrome-osx.png)
+![alt tag](https://raw.github.com/babaca/bt-slider/master/images/osx-chrome.png)
 
 #### Requirements
 
