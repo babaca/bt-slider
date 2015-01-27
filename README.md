@@ -63,7 +63,7 @@ As the handles are moved the model values `min` and `max` will be updated in the
 Options
 -------
 
-Options are set as attributes on the `<bt-range-slider>`
+Options are set as attributes on the `<bt-slider>`
 
 ### `=` two-way bindings
 
