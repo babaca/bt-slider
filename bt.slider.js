@@ -12,9 +12,9 @@
         dir.scope = {
             id: '=index', // single slider option
             min: '=', // range slider option
-            max: '=',
-            values: '=',
-            disabled: '='
+            max: '=', // range slider option
+            values: '=', //
+            disabled: '=' // disabled status
         };
 
         dir.template = '<div class="bt-slider"><div class="scale-line"></div><div class="indicator-annotation"></div></div>';
@@ -30,7 +30,7 @@
             scope.indicated = (attrs.indicated === 'true') ? true : false; /* indicator sign */
             scope.dotted = (attrs.dotted === 'true') ? true : false;;
             scope.annotated = (attrs.annotated === 'true') ? true : false;; /* scale annotation signs */
-            scope.delay = 150;
+            scope.delay = 150; 
 
 
 
@@ -70,7 +70,7 @@
                             .css('background-color', scope.colorBg)
                             .appendTo(dom.slider);
 
-                        mark.css('left', positionFromIndex(i, mark.width()));
+                        mark.css('left', positionFromId(i, mark.width()));
                     }
 
                     // scale annotations
@@ -81,7 +81,7 @@
                             .html(scope.values[i])
                             .appendTo(dom.slider);
 
-                        annotation.css('left', positionFromIndex(i, annotation.width()));
+                        annotation.css('left', positionFromId(i, annotation.width()));
                     }
                 };
             }
@@ -95,6 +95,7 @@
                 // clean the dom
                 clean();
 
+                // initial dom references
                 angular.extend(dom, {
                     slider: elem.find('.bt-slider'),
                     indicatorAnnotation: elem.find('.indicator-annotation'),
@@ -116,8 +117,11 @@
                     dotMarks: elem.find('.scale-mark'),
                 });
 
+                // min and max are set -> render range slider
                 if ((typeof scope.min !== 'undefined') && (typeof scope.min !== 'undefined')) {
                     renderDoubleIndicator();
+
+                // else if index is set -> render single value slider
                 } else if (typeof scope.id !== 'undefined') {
                     renderSingleIndicator();
                 }
@@ -136,7 +140,6 @@
 
 
             function renderSingleIndicator() {
-                // console.log('renderSingleIndicator()');
 
                 // create handle
                 dom.handle = $('<div>')
@@ -153,14 +156,14 @@
                 if (scope.indicated) {
                     dom.indicatorAnnotation.css('color', scope.color)
                         .html(scope.values[scope.id])
-                        .css('left', positionFromIndex(scope.id, dom.indicatorAnnotation.width()))
+                        .css('left', positionFromId(scope.id, dom.indicatorAnnotation.width()))
                         .show();
                 }
 
                 colorAnnotation(scope.id);
 
-                dom.indicator.css('left', positionFromIndex(scope.id, dom.indicator.width()));
-                dom.handle.css('left', positionFromIndex(scope.id, dom.handle.width()));
+                dom.indicator.css('left', positionFromId(scope.id, dom.indicator.width()));
+                dom.handle.css('left', positionFromId(scope.id, dom.handle.width()));
 
                 dom.handle
                     .draggable({
@@ -203,7 +206,7 @@
             }
 
 
-
+            // renders the range case
             function renderDoubleIndicator() {
 
                 dom.handleMin = $('<div>')
@@ -233,19 +236,19 @@
 
                 // indication positioning
                 dom.indicator
-                    .css('left', positionFromIndex(scope.min, dom.indicator.width()))
-                    .css('right', dom.slider.width() - positionFromIndex(scope.max, 0));
+                    .css('left', positionFromId(scope.min, dom.indicator.width()))
+                    .css('right', dom.slider.width() - positionFromId(scope.max, 0));
 
                 dom.indicatorAnnotation.css('color', scope.color);
                 positionIndicationAnnotation();
 
                 // marks of ends of the indication
-                dom.indicatorMin.css('left', positionFromIndex(scope.min, dom.indicatorMin.width()));
-                dom.indicatorMax.css('left', positionFromIndex(scope.max, dom.indicatorMax.width()));
+                dom.indicatorMin.css('left', positionFromId(scope.min, dom.indicatorMin.width()));
+                dom.indicatorMax.css('left', positionFromId(scope.max, dom.indicatorMax.width()));
 
                 // handles positioning
-                dom.handleMin.css('left', positionFromIndex(scope.min, dom.handleMin.width()));
-                dom.handleMax.css('left', positionFromIndex(scope.max, dom.handleMax.width()));
+                dom.handleMin.css('left', positionFromId(scope.min, dom.handleMin.width()));
+                dom.handleMax.css('left', positionFromId(scope.max, dom.handleMax.width()));
 
                 colorAnnotation(scope.max);
                 colorAnnotation(scope.min);
@@ -290,7 +293,8 @@
                                 return false;
                             }
                             scope.$apply(function() {
-                                scope.max = idFromCoord(dom.handleMax.offset().left + dom.handleMax.width() / 1.5 - dom.slider.offset().left); // + dom.handleMax.width()/1.5 = to make it "almost .right"
+                                // + dom.handleMax.width()/1.5 = to make it "almost .right"
+                                scope.max = idFromCoord(dom.handleMax.offset().left + dom.handleMax.width() / 1.5 - dom.slider.offset().left); 
                             });
                         },
                         stop: function() {
@@ -311,9 +315,9 @@
                         distMax = Math.abs(where - scope.max);
 
                     if (distMin < distMax) {
-                        scope.min = where;
+                        scope.min = where; // move min handle
                     } else {
-                        scope.max = where;
+                        scope.max = where; // move max handle
                     }
                     scope.$apply();
                 });
@@ -322,7 +326,7 @@
 
 
             // get position for the center of the obj by defined coords
-            function positionFromIndex(id, widthObj) {
+            function positionFromId(id, widthObj) {
                 var idCoord = id / valuesNum * dom.slider.width();
                 return idCoord - widthObj / 2;
             }
@@ -348,15 +352,16 @@
                     dom.indicator
                         .stop()
                         .animate({
-                            left: positionFromIndex(id, dom.indicator.width())
+                            left: positionFromId(id, dom.indicator.width())
                         }, scope.delay);
                 }
 
+                // positionIndicationAnnotation for a single case
                 if (dom.indicatorAnnotation && scope.indicated) {
                     dom.indicatorAnnotation
                         .hide()
                         .html(scope.values[scope.id])
-                        .css('left', positionFromIndex(scope.id, dom.indicatorAnnotation.width()))
+                        .css('left', positionFromId(scope.id, dom.indicatorAnnotation.width()))
                         .show();
                 }
                 colorAnnotation(id, id_);
@@ -371,12 +376,13 @@
                 var shift = min - min_,
                     span = Math.abs(scope.min - scope.max);
 
+                // rules check
                 if ((span > spanMax) || (span < spanMin)) {
                     var where = scope.max + shift;
                     if ((where > 0) && (where < valuesNum + 1)) {
-                        scope.max += shift;
+                        scope.max += shift; // shift selection
                     } else {
-                        scope.min -= shift;
+                        scope.min -= shift; // rollback
                     }
                 }
                 positionIndication();
@@ -392,12 +398,14 @@
 
                 var shift = max - max_,
                     span = Math.abs(scope.max - scope.min);
+
+                // rules check
                 if ((span > spanMax) || (span < spanMin)) {
                     var where = scope.min + shift;
                     if ((where >= 0) && (where <= valuesNum + 1)) {
-                        scope.min += shift;
+                        scope.min += shift; // shift selection
                     } else {
-                        scope.max -= shift;
+                        scope.max -= shift; // rollback
                     }
                 }
                 colorAnnotation(max, max_);
@@ -429,9 +437,8 @@
             // literally what is said in the function name
             function positionIndicationAnnotation() {
                 if (dom.indicatorAnnotation && scope.indicated) {
-                    var middle = (positionFromIndex(scope.min, 0) + positionFromIndex(scope.max, 0)) / 2;
+                    var middle = (positionFromId(scope.min, 0) + positionFromId(scope.max, 0)) / 2;
 
-                    // dom.indicatorAnnotation.css('color', scope.color);
                     dom.indicatorAnnotation
                         .html(scope.values[scope.min] + '&nbsp;&ndash;&nbsp;' + scope.values[scope.max])
                         .css('left', middle - dom.indicatorAnnotation.width() / 2)
@@ -447,8 +454,8 @@
                     dom.indicator
                         .stop()
                         .animate({
-                            left: positionFromIndex(scope.min, 0),
-                            right: dom.slider.width() - positionFromIndex(scope.max, 0)
+                            left: positionFromId(scope.min, 0),
+                            right: dom.slider.width() - positionFromId(scope.max, 0)
                         }, scope.delay);
                 }
 
@@ -467,7 +474,7 @@
                     dom.indicatorMax
                         .stop()
                         .animate({
-                            left: positionFromIndex(scope.max, dom.indicatorMax.width())
+                            left: positionFromId(scope.max, dom.indicatorMax.width())
                         }, scope.delay);
                 }
 
@@ -476,7 +483,7 @@
                     dom.indicatorMin
                         .stop()
                         .animate({
-                            left: positionFromIndex(scope.min, dom.indicatorMin.width())
+                            left: positionFromId(scope.min, dom.indicatorMin.width())
                         }, scope.delay);
                 }
             }
@@ -491,7 +498,7 @@
                     dom.handle
                         .stop()
                         .animate({
-                            left: positionFromIndex(scope.id, dom.handle.width())
+                            left: positionFromId(scope.id, dom.handle.width())
                         }, scope.delay);
                 }
 
@@ -499,7 +506,7 @@
                     dom.handleMin
                         .stop()
                         .animate({
-                            left: positionFromIndex(scope.min, dom.handle.width())
+                            left: positionFromId(scope.min, dom.handle.width())
                         }, scope.delay);
                 }
                 // position the handle after drag
@@ -507,7 +514,7 @@
                     dom.handleMax
                         .stop()
                         .animate({
-                            left: positionFromIndex(scope.max, dom.handleMax.width())
+                            left: positionFromId(scope.max, dom.handleMax.width())
                         }, scope.delay);
                 }
             }
