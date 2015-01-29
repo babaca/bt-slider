@@ -4,7 +4,7 @@ _Current version: 0.1.0_
 
 bt-slider is a directive that creates a range slider or slider that allows a user to change model values.
 
-It has been styled to match one of my projects design.
+The slider renders to 100% width of the parent element. And re-renders on window 'resize' event.
 
 Appearance
 ----------
